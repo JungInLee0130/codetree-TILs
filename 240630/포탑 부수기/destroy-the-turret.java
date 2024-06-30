@@ -214,54 +214,37 @@ public class Main {
         }
     }
 
+    static int[] ddx = {-1, 1, 0, 0, 1, 1, -1, -1};
+    static int[] ddy = {0, 0, -1, 1, -1, 1, 1, -1};
     private static void bomb(Tower minTower, Tower maxTower) {
-        int x = maxTower.x;
-        int y = minTower.y;
+        int x = maxTower.x; // 목표 대상 x, y 좌표
+        int y = maxTower.y;
 
         // power 수정
         maxTower.power -= minTower.power;
-        map[x][y].power -= maxTower.power;
+        map[x][y].power = maxTower.power;
 
         isAttacked = new boolean[max_N][max_M];
         isAttacked[x][y] = true;
 
-        // 좌표 수정
-        int lx = x - 1;
-        int rx = x + 1;
-        int ly = y - 1;
-        int ry = y + 1;
+        // 좌표를 넘어갈때 +N을 더하고 %N을 해서 비율을 맞추는거같음
 
-        if (lx <= 0) {
-            lx = N;
-        }
-        if (rx >= N + 1) {
-            rx = 1;
-        }
+        for (int d = 0; d < 8; d++) {
+            int nx = x - 1; // x - 1
+            nx = (nx + ddx[d] + N) % N; // nx계산
+            nx = nx + 1; // nx + 1
 
-        if (ly <= 0) {
-            ly = M;
-        }
-        if (ry >= M + 1) {
-            ry = 1;
-        }
+            int ny = y - 1;
+            ny = (ny + ddy[d] + M) % M;
+            ny = ny + 1;
 
-        map[lx][ly].power = lowTower.power / 2;
-        map[lx][y].power = lowTower.power / 2;
-        map[lx][ry].power = lowTower.power / 2;
-        map[x][ly].power = lowTower.power / 2;
-        map[x][ry].power = lowTower.power / 2;
-        map[rx][ly].power = lowTower.power / 2;
-        map[rx][y].power = lowTower.power / 2;
-        map[rx][ry].power = lowTower.power / 2;
-
-        isAttacked[lx][ly] = true;
-        isAttacked[lx][y] = true;
-        isAttacked[lx][ry] = true;
-        isAttacked[x][ly] = true;
-        isAttacked[x][ry] = true;
-        isAttacked[rx][ly] = true;
-        isAttacked[rx][y] = true;
-        isAttacked[rx][ry] = true;
+            if (nx == minTower.x && ny == minTower.y) {
+                // 공격대상이면 제외
+                continue;
+            }
+            map[nx][ny].power -= minTower.power / 2;
+            isAttacked[nx][ny] = true;
+        }
     }
 
     private static void razer(Tower minTower, Tower maxTower) {
@@ -307,22 +290,15 @@ public class Main {
             }
 
             for (int d = 0; d < 4; d++) {
-                int nx = poll.x + dx[d];
-                int ny = poll.y + dy[d];
+                int nx = poll.x - 1;
+                int ny = poll.y - 1; // 평행이동
 
-                // 범위 밖이면 반대편으로
-                if (nx == N + 1) { // 아래쪽으로 진행중
-                    nx = 1;
-                }
-                if (nx == 0) { // 위쪽으로 진행중
-                    nx = N;
-                }
-                if (ny == M + 1) { // 오른쪽으로 진행중
-                    ny = 1;
-                }
-                if (ny == 0) { // 왼쪽으로 진행중
-                    ny = M;
-                }
+                nx = (nx + dx[d] + N) % N;
+                ny = (ny + dy[d] + M) % M;
+
+                nx = nx + 1;
+                ny = ny + 1;
+
                 // 방문함
                 if (visited[nx][ny]) continue;
                 // 벽임
