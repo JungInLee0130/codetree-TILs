@@ -64,6 +64,7 @@ public class Main {
     private static void game(int round) {
         selectAttacker(round);
         selectDefender();
+        if (isFinished()) return;
         attack(lowTower, maxTower);
         broken();
         restore();
@@ -93,8 +94,10 @@ public class Main {
         int max = Integer.MIN_VALUE;
         for (int i = 1; i <= N; i++) {
             for (int j = 1; j <= M; j++) {
-                if (max < map[i][j].power) {
-                    max = map[i][j].power;
+                if (map[i][j].power > 0) {
+                    if (max < map[i][j].power) {
+                        max = map[i][j].power;
+                    }
                 }
             }
         }
@@ -131,7 +134,6 @@ public class Main {
         });
 
         maxTower = maxTowers.get(0);
-
         // 수정할께 없음.
     }
     static Tower maxTower;
