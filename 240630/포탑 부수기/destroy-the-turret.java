@@ -31,7 +31,20 @@ public class Main {
 
             System.out.println(maxTower.x + " " + maxTower.y);
             System.out.println(maxTower.power);
-            System.out.println(map[maxTower.x][maxTower.y].power);*/
+            System.out.println(map[maxTower.x][maxTower.y].power);
+
+            System.out.println();
+            for (int i = 1; i <= N; i++) {
+                for (int j = 1; j <= M; j++) {
+                    if (backTower[i][j] == null) {
+                        System.out.print(0 + " ");
+                        continue;
+                    }
+                    System.out.print(backTower[i][j].power + " ");
+                }
+                System.out.println();
+            }
+            System.out.println();*/
 
         }
 
@@ -322,7 +335,7 @@ public class Main {
                 que.add(map[nx][ny]);
                 visited[nx][ny] = true;
                 // 이동경로는 어케저장함.... -> 역추적하는 배열을 저장함
-                backTower[nx][ny] = map[poll.x][poll.y];
+                backTower[nx][ny] = new Tower(poll.x,poll.y, 0, 0);
             }
         }
         return false;
