@@ -260,12 +260,15 @@ public class Main {
         isAttacked = new boolean[max_N][max_M];
         isAttacked[maxTower.x][maxTower.y] = true;
 
+        ex = backTower[ex][ey].x;
+        ey = backTower[ex][ey].y;
+
         while (sx != ex && sy != ey) {
-            Tower bT = backTower[ex][ey];
-            map[bT.x][bT.y].power -= minTower.power/2;
-            ex = bT.x;
-            ey = bT.y;
+            map[ex][ey].power -= minTower.power/2;
             isAttacked[ex][ey] = true;
+
+            ex = backTower[ex][ey].x;
+            ey = backTower[ex][ey].y;
         }
     }
 
