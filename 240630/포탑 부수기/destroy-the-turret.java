@@ -27,6 +27,12 @@ public class Main {
             if (!isFinished()){
                 game(round);
             }
+            System.out.println("-------------" + round + "-----------------");
+
+            System.out.println(maxTower.x + " " + maxTower.y);
+            System.out.println(maxTower.power);
+            System.out.println(map[maxTower.x][maxTower.y].power);
+
         }
 
         int maxPower = 0;
@@ -65,7 +71,7 @@ public class Main {
         selectAttacker(round);
         selectDefender();
         if (isFinished()) return;
-        attack(lowTower, maxTower);
+        attack();
         broken();
         restore();
     }
@@ -197,31 +203,36 @@ public class Main {
         // round 수정
         lowTower.round = round;
         lowTower.power += (N + M);
+
         map[lowTower.x][lowTower.y].round = lowTower.round;
         map[lowTower.x][lowTower.y].power = lowTower.power;
+
+        System.out.println(lowTower.x + " " + lowTower.y);
+        System.out.println(lowTower.power);
+        System.out.println(map[lowTower.x][lowTower.y].power);
     }
 
-    private static void attack(Tower minTower, Tower maxTower) {
-        if (hasRoute(minTower, maxTower)) {
-            razer(minTower, maxTower);
+    private static void attack() {
+        if (hasRoute()) {
+            razer();
         }
         else{
-            bomb(minTower, maxTower);
+            bomb();
         }
     }
 
     static int[] ddx = {-1, 1, 0, 0, 1, 1, -1, -1};
     static int[] ddy = {0, 0, -1, 1, -1, 1, 1, -1};
-    private static void bomb(Tower minTower, Tower maxTower) {
+    private static void bomb() {
         int ex = maxTower.x; // 목표 대상 x, y 좌표
         int ey = maxTower.y;
 
         // power 수정
-        maxTower.power -= minTower.power;
+        maxTower.power -= lowTower.power;
         map[ex][ey].power = maxTower.power;
 
         isAttacked = new boolean[max_N][max_M];
-        isAttacked[minTower.x][minTower.y] = true;
+        isAttacked[lowTower.x][lowTower.y] = true;
         isAttacked[ex][ey] = true;
 
         // 좌표를 넘어갈때 +N을 더하고 %N을 해서 비율을 맞추는거같음
@@ -235,36 +246,36 @@ public class Main {
             ny = (ny + ddy[d] + M) % M;
             ny = ny + 1;
 
-            if (nx == minTower.x && ny == minTower.y) {
+            if (nx == lowTower.x && ny == lowTower.y) {
                 // 공격대상이면 제외
                 continue;
             }
 
-            map[nx][ny].power -= minTower.power / 2;
+            map[nx][ny].power -= lowTower.power / 2;
             isAttacked[nx][ny] = true;
         }
     }
 
-    private static void razer(Tower minTower, Tower maxTower) {
-        int sx = minTower.x;
-        int sy = minTower.y;
+    private static void razer() {
+        int sx = lowTower.x;
+        int sy = lowTower.y;
 
         int ex = maxTower.x;
         int ey = maxTower.y;
 
         // power 값 바꾸기
-        maxTower.power -= minTower.power;
+        maxTower.power -= lowTower.power;
         map[maxTower.x][maxTower.y].power = maxTower.power;
 
         isAttacked = new boolean[max_N][max_M];
-        isAttacked[minTower.x][minTower.y] = true;
+        isAttacked[lowTower.x][lowTower.y] = true;
         isAttacked[maxTower.x][maxTower.y] = true;
 
         ex = backTower[ex][ey].x;
         ey = backTower[ex][ey].y;
 
         while (sx != ex && sy != ey) {
-            map[ex][ey].power -= minTower.power/2;
+            map[ex][ey].power -= lowTower.power/2;
             isAttacked[ex][ey] = true;
 
             ex = backTower[ex][ey].x;
@@ -278,11 +289,11 @@ public class Main {
     static int[] dx = {0, 1, 0, -1}; // 우하좌상
     static int[] dy = {1, 0, -1, 0};
     static Tower[][] backTower;
-    private static boolean hasRoute(Tower minTower, Tower maxTower) {
+    private static boolean hasRoute() {
         Queue<Tower> que = new LinkedList<>();
         boolean[][] visited = new boolean[N + 1][M + 1];
-        que.add(minTower);
-        visited[minTower.x][minTower.y] = true;
+        que.add(lowTower);
+        visited[lowTower.x][lowTower.y] = true;
         backTower = new Tower[N + 1][M + 1];
 
         while (!que.isEmpty()) {
