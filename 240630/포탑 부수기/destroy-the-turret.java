@@ -216,24 +216,25 @@ public class Main {
     static int[] ddx = {-1, 1, 0, 0, 1, 1, -1, -1};
     static int[] ddy = {0, 0, -1, 1, -1, 1, 1, -1};
     private static void bomb(Tower minTower, Tower maxTower) {
-        int x = maxTower.x; // 목표 대상 x, y 좌표
-        int y = maxTower.y;
+        int ex = maxTower.x; // 목표 대상 x, y 좌표
+        int ey = maxTower.y;
 
         // power 수정
         maxTower.power -= minTower.power;
-        map[x][y].power = maxTower.power;
+        map[ex][ey].power = maxTower.power;
 
         isAttacked = new boolean[max_N][max_M];
-        isAttacked[x][y] = true;
+        isAttacked[minTower.x][minTower.y] = true;
+        isAttacked[ex][ey] = true;
 
         // 좌표를 넘어갈때 +N을 더하고 %N을 해서 비율을 맞추는거같음
 
         for (int d = 0; d < 8; d++) {
-            int nx = x - 1; // x - 1
+            int nx = ex - 1; // x - 1
             nx = (nx + ddx[d] + N) % N; // nx계산
             nx = nx + 1; // nx + 1
 
-            int ny = y - 1;
+            int ny = ey - 1;
             ny = (ny + ddy[d] + M) % M;
             ny = ny + 1;
 
@@ -241,6 +242,7 @@ public class Main {
                 // 공격대상이면 제외
                 continue;
             }
+
             map[nx][ny].power -= minTower.power / 2;
             isAttacked[nx][ny] = true;
         }
@@ -258,6 +260,7 @@ public class Main {
         map[maxTower.x][maxTower.y].power = maxTower.power;
 
         isAttacked = new boolean[max_N][max_M];
+        isAttacked[minTower.x][minTower.y] = true;
         isAttacked[maxTower.x][maxTower.y] = true;
 
         ex = backTower[ex][ey].x;
