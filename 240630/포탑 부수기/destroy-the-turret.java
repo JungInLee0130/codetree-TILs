@@ -3,7 +3,6 @@ import java.util.*;
 
 public class Main {
     static int N, M, K;
-
     static final int max_N = 11;
     static final int max_M = 11;
     static Tower[][] map;
@@ -64,7 +63,7 @@ public class Main {
 
     private static void game(int round) {
         selectAttacker(round);
-        selectDefender(round);
+        selectDefender();
         attack(lowTower, maxTower);
         broken();
         restore();
@@ -90,7 +89,7 @@ public class Main {
         }
     }
 
-    private static void selectDefender(int round) {
+    private static void selectDefender() {
         int max = Integer.MIN_VALUE;
         for (int i = 1; i <= N; i++) {
             for (int j = 1; j <= M; j++) {
@@ -262,9 +261,10 @@ public class Main {
         isAttacked[maxTower.x][maxTower.y] = true;
 
         while (sx != ex && sy != ey) {
-            backTower[ex][ey].power -= minTower.power/2;
-            ex = backTower[ex][ey].x;
-            ey = backTower[ex][ey].y;
+            Tower bT = backTower[ex][ey];
+            map[bT.x][bT.y].power -= minTower.power/2;
+            ex = bT.x;
+            ey = bT.y;
             isAttacked[ex][ey] = true;
         }
     }
