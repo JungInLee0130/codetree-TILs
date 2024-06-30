@@ -27,11 +27,11 @@ public class Main {
             if (!isFinished()){
                 game(round);
             }
-            System.out.println("-------------" + round + "-----------------");
+            /*System.out.println("-------------" + round + "-----------------");
 
             System.out.println(maxTower.x + " " + maxTower.y);
             System.out.println(maxTower.power);
-            System.out.println(map[maxTower.x][maxTower.y].power);
+            System.out.println(map[maxTower.x][maxTower.y].power);*/
 
         }
 
@@ -207,9 +207,9 @@ public class Main {
         map[lowTower.x][lowTower.y].round = lowTower.round;
         map[lowTower.x][lowTower.y].power = lowTower.power;
 
-        System.out.println(lowTower.x + " " + lowTower.y);
+        /*System.out.println(lowTower.x + " " + lowTower.y);
         System.out.println(lowTower.power);
-        System.out.println(map[lowTower.x][lowTower.y].power);
+        System.out.println(map[lowTower.x][lowTower.y].power);*/
     }
 
     private static void attack() {
