@@ -102,7 +102,6 @@ public class Main {
             }
         }
 
-
         // 최대값과 같은거 다 배열에 넣기
         ArrayList<Tower> maxTowers = new ArrayList<>();
 
@@ -197,7 +196,7 @@ public class Main {
 
         // round 수정
         lowTower.round = round;
-        lowTower.power += N + M;
+        lowTower.power += (N + M);
         map[lowTower.x][lowTower.y].round = lowTower.round;
         map[lowTower.x][lowTower.y].power = lowTower.power;
     }
