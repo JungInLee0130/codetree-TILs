@@ -185,13 +185,9 @@ public class Main {
         Collections.sort(lowTowers, new Comparator<Tower>() {
             @Override
             public int compare(Tower t1, Tower t2) {
-                if (t2.round == t1.round) {
-                    if ((t2.x + t2.y) == (t1.x + t1.y)) {
-                        return t2.y - t1.y;
-                    }
-                    return (t2.x + t2.y) - (t1.x + t1.y);
-                }
-                return t2.round - t1.round;
+                if (t2.round != t1.round) return t2.round - t1.round;
+                if ((t2.x + t2.y) != (t1.x + t1.y)) return (t2.x + t2.y) - (t1.x + t1.y);
+                return t2.y - t1.y;
             }
         });
 
