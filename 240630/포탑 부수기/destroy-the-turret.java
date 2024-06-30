@@ -120,13 +120,13 @@ public class Main {
         Collections.sort(maxTowers, new Comparator<Tower>() {
             @Override
             public int compare(Tower t1, Tower t2) {
-                if (Integer.compare(t1.round, t2.round) == 0) {
-                    if (Integer.compare(t1.x + t1.y, t2.x + t2.y) == 0) {
-                        return Integer.compare(t1.y, t2.y);
+                if (t1.round == t2.round) {
+                    if ((t1.x + t1.y) == (t2.x + t2.y)) {
+                        return t1.y - t2.y;
                     }
-                    return Integer.compare(t1.x + t1.y, t2.x + t2.y);
+                    return (t1.x + t1.y) - (t2.x + t2.y);
                 }
-                return Integer.compare(t1.round, t2.round);
+                return t1.round - t2.round;
             }
         });
 
@@ -185,13 +185,13 @@ public class Main {
         Collections.sort(lowTowers, new Comparator<Tower>() {
             @Override
             public int compare(Tower t1, Tower t2) {
-                if (Integer.compare(t2.round, t1.round) == 0) {
-                    if (Integer.compare(t2.x + t2.y, t1.x + t1.y) == 0) {
-                        return Integer.compare(t2.y, t1.y);
+                if (t2.round == t1.round) {
+                    if ((t2.x + t2.y) == (t1.x + t1.y)) {
+                        return t2.y - t1.y;
                     }
-                    return Integer.compare(t2.x + t2.y, t1.x + t1.y);
+                    return (t2.x + t2.y) - (t1.x + t1.y);
                 }
-                return Integer.compare(t2.round, t1.round);
+                return t2.round - t1.round;
             }
         });
 
