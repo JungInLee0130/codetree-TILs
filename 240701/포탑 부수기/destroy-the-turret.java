@@ -101,6 +101,9 @@ public class Main {
         int max = Integer.MIN_VALUE;
         for (int i = 1; i <= N; i++) {
             for (int j = 1; j <= M; j++) {
+                if (i == lowTower.x && j == lowTower.y) {
+                    continue;
+                }
                 if (map[i][j].power > 0) {
                     if (max < map[i][j].power) {
                         max = map[i][j].power;
