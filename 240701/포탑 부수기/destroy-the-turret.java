@@ -144,6 +144,12 @@ public class Main {
 
         maxTower = maxTowers.get(0);
         // 수정할께 없음.
+        /*System.out.println("------------------------------");
+        System.out.println(lowTower.x + " " + lowTower.y);
+        System.out.println(map[lowTower.x][lowTower.y].power);
+        System.out.println();
+        System.out.println(maxTower.x + " " + maxTower.y);
+        System.out.println(map[maxTower.x][maxTower.y].power);*/
     }
     static Tower maxTower;
 
@@ -169,6 +175,7 @@ public class Main {
         ArrayList<Tower> lowTowers = new ArrayList<>();
         // 최소값 찾기
         int min = Integer.MAX_VALUE;
+
         for (int i = 1; i <= N; i++) {
             for (int j = 1; j <= M; j++) {
                 if (map[i][j].power > 0) {
@@ -210,10 +217,6 @@ public class Main {
 
         map[lowTower.x][lowTower.y].round = lowTower.round;
         map[lowTower.x][lowTower.y].power = lowTower.power;
-
-        /*System.out.println(lowTower.x + " " + lowTower.y);
-        System.out.println(lowTower.power);
-        System.out.println(map[lowTower.x][lowTower.y].power);*/
     }
 
     private static void attack() {
@@ -235,7 +238,7 @@ public class Main {
         maxTower.power -= lowTower.power;
         map[ex][ey].power = maxTower.power;
 
-        isAttacked = new boolean[max_N][max_M];
+        isAttacked = new boolean[N + 1][M + 1];
         isAttacked[lowTower.x][lowTower.y] = true;
         isAttacked[ex][ey] = true;
 
@@ -275,16 +278,19 @@ public class Main {
         isAttacked[lowTower.x][lowTower.y] = true;
         isAttacked[maxTower.x][maxTower.y] = true;
 
-        ex = backTower[ex][ey].x;
-        ey = backTower[ex][ey].y;
+        int nx = backTower[ex][ey].x;
+        int ny = backTower[ex][ey].y;
+
+        ex = nx;
+        ey = ny;
 
         while (!(sx == ex && sy == ey)) {
             map[ex][ey].power -= lowTower.power/2;
             isAttacked[ex][ey] = true;
 
             // 좌표가 바뀐채로 담기니까 그렇지 등신아.....
-            int nx = backTower[ex][ey].x;
-            int ny = backTower[ex][ey].y;
+            nx = backTower[ex][ey].x;
+            ny = backTower[ex][ey].y;
 
             ex = nx;
             ey = ny;
