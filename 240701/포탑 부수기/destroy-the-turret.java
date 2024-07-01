@@ -208,9 +208,9 @@ public class Main {
         map[lowTower.x][lowTower.y].round = lowTower.round;
         map[lowTower.x][lowTower.y].power = lowTower.power;
 
-        System.out.println(lowTower.x + " " + lowTower.y);
+        /*System.out.println(lowTower.x + " " + lowTower.y);
         System.out.println(lowTower.power);
-        System.out.println(map[lowTower.x][lowTower.y].power);
+        System.out.println(map[lowTower.x][lowTower.y].power);*/
     }
 
     private static void attack() {
