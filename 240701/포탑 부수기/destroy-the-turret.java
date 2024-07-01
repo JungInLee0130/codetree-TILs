@@ -143,13 +143,6 @@ public class Main {
         });
 
         maxTower = maxTowers.get(0);
-        // 수정할께 없음.
-        /*System.out.println("------------------------------");
-        System.out.println(lowTower.x + " " + lowTower.y);
-        System.out.println(map[lowTower.x][lowTower.y].power);
-        System.out.println();
-        System.out.println(maxTower.x + " " + maxTower.y);
-        System.out.println(map[maxTower.x][maxTower.y].power);*/
     }
     static Tower maxTower;
 
@@ -302,22 +295,18 @@ public class Main {
     // bfs, 경로 저장
     static int[] dx = {0, 1, 0, -1}; // 우하좌상
     static int[] dy = {1, 0, -1, 0};
-    static Point[][] backTower;
+    static Tower[][] backTower;
     private static boolean hasRoute() {
-        Queue<Point> que = new LinkedList<>();
+        Queue<Tower> que = new LinkedList<>();
         boolean[][] visited = new boolean[N + 1][M + 1];
-        int sx = lowTower.x;
-        int sy = lowTower.y;
-        int ex = maxTower.x;
-        int ey = maxTower.y;
-        que.add(new Point(sx, sy));
-        visited[sx][sy] = true;
-        backTower = new Point[N + 1][M + 1];
+        que.add(lowTower);
+        visited[lowTower.x][lowTower.y] = true;
+        backTower = new Tower[N + 1][M + 1];
 
         while (!que.isEmpty()) {
-            Point poll = que.poll();
+            Tower poll = que.poll();
 
-            if (poll.x == ex && poll.y == ey) {
+            if (poll.x == maxTower.x && poll.y == maxTower.y) {
                 return true;
             }
 
@@ -337,10 +326,10 @@ public class Main {
                 if (map[nx][ny].power == 0) continue;
 
                 // 이동가능
-                que.add(new Point(nx, ny));
+                que.add(map[nx][ny]);
                 visited[nx][ny] = true;
                 // 이동경로는 어케저장함.... -> 역추적하는 배열을 저장함
-                backTower[nx][ny] = new Point(poll.x, poll.y);
+                backTower[nx][ny] = map[poll.x][poll.y];
 
                /* System.out.println();
                 for (int i = 1; i <= N; i++) {
