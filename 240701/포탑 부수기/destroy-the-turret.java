@@ -28,12 +28,6 @@ public class Main {
             if (!isFinished()){
                 game(round);
             }
-            /*System.out.println("-------------" + round + "-----------------");
-
-            System.out.println(maxTower.x + " " + maxTower.y);
-            System.out.println(maxTower.power);
-            System.out.println(map[maxTower.x][maxTower.y].power);*/
-
         }
 
         int maxPower = 0;
@@ -330,60 +324,8 @@ public class Main {
                 visited[nx][ny] = true;
                 // 이동경로는 어케저장함.... -> 역추적하는 배열을 저장함
                 backTower[nx][ny] = map[poll.x][poll.y];
-
-               /* System.out.println();
-                for (int i = 1; i <= N; i++) {
-                    for (int j = 1; j <= M; j++) {
-                        if (backTower[i][j] == null) {
-                            System.out.print("x ");
-                            continue;
-                        }
-                        System.out.print("(" + backTower[i][j].x + "," + backTower[i][j].y + ") ");
-                    }
-                    System.out.println();
-                }
-                System.out.println();*/
             }
         }
         return false;
     }
 }
-
-// 1. 공격자 선정
-// 우선순위
-// 1. 공격력이 가장 낮은 포탑
-// 2. 가장 최근에 공격한 포탑
-// 3. 행과 열의 합이 가장 큰 포탑
-// 4. 열의 값이 가장 큰 포탑
-
-// 2. 공격
-// 우선순위
-// 1. 공격력이 가장 높은 포탑
-// 2. 공격한지 가장 오래된 포탑
-// 3. 행과 열의 합이 가장 작은 포탑
-// 4. 열의 값이 가장 작은 포탑
-
-// 2-1. 레이저 공격
-// 상하좌우 4방향
-// 부서진 포탑은 지날수없음
-// 막힌 방향으로 진행한다면, 반대편으로 나온다.
-// 최단경로로 공격
-// 최단경로가 2개 이상일 경우, 우 하 좌 상 순서로 선택
-// 공격자에게는 공격력만큼 피해, 나머지 경로는 /2
-
-// 2-2. 포탄 공격
-// 8방 피해 : 공격자는 공격력만큼, 나머지는 /2
-// 가장자리에 떨어지면, 반대편에도 영향 미침
-
-// 3. 포탑 부서짐
-
-// 4. 포탑 정비
-// 공격력이 1씩올라감.
-
-// 이후 2부터 반복
-
-// 공격력이 가장 강한 포탑 출력.
-
-// 유의
-// 부서지지않은 포탑이 1개가되면 즉시 중지
-// (1,1) 부터 시작
