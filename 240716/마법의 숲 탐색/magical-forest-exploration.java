@@ -64,7 +64,7 @@ public class Main {
     private static void games(int idx) {
         gollemMove(idx);
         coloring(idx);
-        if (gollems[idx].centerX < 4 || gollems[idx].centerY < 2 || gollems[idx].centerY > C - 1) {
+        if (gollems[idx].centerX <= 3) {
             clean(); // 청소함.
             return; // count X
         }
@@ -155,8 +155,8 @@ public class Main {
 
     private static void clean() {
         isExit = new boolean[R + 3][C + 1];
-        for (int i = 1; i <= R + 2; i++) {
-            for (int j = 1; j <= C; j++) {
+        for (int i = 0; i <= R + 2; i++) {
+            for (int j = 0; j <= C; j++) {
                 map[i][j] = 0;
             }
         }
