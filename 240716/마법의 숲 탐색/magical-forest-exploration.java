@@ -67,8 +67,8 @@ public class Main {
         coloring(idx);
         // 53퍼까지 가는 checkpoint : 중심이 4이상이 되는게 아니면, 모두 삭제해야한다.
         if (gollems[idx].centerX <= 3) {
-            clean(); // 청소함.
-            return; // count X
+            clean();
+            return;
         }
         coloringExit(idx);
         fairyMove(idx);
@@ -113,23 +113,16 @@ public class Main {
                 int nx = x + dx[d];
                 int ny = y + dy[d];
 
-                // 범위 밖이면 out
                 if (!isRange(nx, ny)) continue;
-                // 이미 방문한거면 out
                 if (visited[nx][ny]) continue;
-                // 이동 못하면 out
-                if (map[nx][ny] == 0) continue; // 0 이면 못감
+                if (map[nx][ny] == 0) continue;
 
                 int nnum = map[nx][ny];
-
-                // exit이면 go ok
-                // 새로운 좌표 색깔과 이전 색깔이 일치하거나
-                // 색깔은 다른데 이전이 출구라면
+                
                 if (num == nnum || num != nnum && isExit[x][y]){
-                    if (nx > resultX) { // 근데 그 좌표가 더 크다면
-                        resultX = nx; // 새로 저장
+                    if (nx > resultX) {
+                        resultX = nx;
                     }
-                    // 큐에 넣음.
                     que.add(new int[]{nx, ny, nnum});
                     visited[nx][ny] = true;
                 }
@@ -164,13 +157,10 @@ public class Main {
         }
     }
 
-    // 2 ~ R + 1
-    // 1 ~ C
-
     static int[] dx = {-1, 0, 1, 0}; // 상우하좌
     static int[] dy = {0, 1, 0, -1};
     private static void gollemMove(int idx) {
-        int gollemRow = gollems[idx].centerX; // 중심 r : 2부터 시작
+        int gollemRow = gollems[idx].centerX; // 중심 r : 1부터 시작
         int gollemColumn = gollems[idx].centerY; // 중심 c : 2부터 C - 1 사이
         int gollemDir = gollems[idx].exitDir;
 
@@ -178,8 +168,6 @@ public class Main {
         int r = gollemRow;
         int c = gollemColumn;
         int d = gollemDir;
-
-        //if (map[r + 1][c] != 0) return; // 이미 골렘이 있어서 들어갈수없음
 
         while (true) {
             // 남쪽
