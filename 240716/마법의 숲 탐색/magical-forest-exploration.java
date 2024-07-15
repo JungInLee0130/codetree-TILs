@@ -7,12 +7,8 @@ public class Main {
     static int[] columns; // 2 <= ci <= C-1
     static int[] directions;
     static int[][] map;
-
     static int answer;
 
-    static final int max_R = 71;
-    static final int max_C = 71;
-    static final int max_K = 1001;
     // 1부터 시작
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -37,6 +33,11 @@ public class Main {
         gollems = new Gollem[K + 1];
         isExit = new boolean[R + 3][C + 1];
         for (int i = 1; i <= K; i++) {
+            // 53퍼센트 솔루션 :
+            // centerX = 1 : 아예 안들어가는경우
+            // centerX = 2 : 아래 하나만 들어가는 경우
+            // centerX = 3 : 중심까지만 들어가는 경우
+            // 즉, centerX = 1에서 시작해야함. 마침 0범위도 사용할수있고
             gollems[i] = new Gollem(1,columns[i],directions[i]);
             games(i);
         }
@@ -64,6 +65,7 @@ public class Main {
     private static void games(int idx) {
         gollemMove(idx);
         coloring(idx);
+        // 53퍼까지 가는 checkpoint : 중심이 4이상이 되는게 아니면, 모두 삭제해야한다.
         if (gollems[idx].centerX <= 3) {
             clean(); // 청소함.
             return; // count X
@@ -155,8 +157,8 @@ public class Main {
 
     private static void clean() {
         isExit = new boolean[R + 3][C + 1];
-        for (int i = 1; i <= R + 2; i++) {
-            for (int j = 1; j <= C; j++) {
+        for (int i = 0; i <= R + 2; i++) {
+            for (int j = 0; j <= C; j++) {
                 map[i][j] = 0;
             }
         }
