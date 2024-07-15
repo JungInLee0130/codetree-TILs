@@ -37,7 +37,7 @@ public class Main {
         gollems = new Gollem[K + 1];
         isExit = new boolean[R + 3][C + 1];
         for (int i = 1; i <= K; i++) {
-            gollems[i] = new Gollem(2,columns[i],directions[i]);
+            gollems[i] = new Gollem(1,columns[i],directions[i]);
             games(i);
         }
 
@@ -155,8 +155,8 @@ public class Main {
 
     private static void clean() {
         isExit = new boolean[R + 3][C + 1];
-        for (int i = 0; i <= R + 2; i++) {
-            for (int j = 0; j <= C; j++) {
+        for (int i = 1; i <= R + 2; i++) {
+            for (int j = 1; j <= C; j++) {
                 map[i][j] = 0;
             }
         }
