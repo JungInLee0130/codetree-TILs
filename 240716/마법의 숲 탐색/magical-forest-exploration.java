@@ -64,7 +64,7 @@ public class Main {
     private static void games(int idx) {
         gollemMove(idx);
         coloring(idx);
-        if (!isRange(gollems[idx].centerX, gollems[idx].centerY)) {
+        if (gollems[idx].centerX < 4 || gollems[idx].centerY < 2 || gollems[idx].centerY > C - 1) {
             clean(); // 청소함.
             return; // count X
         }
@@ -224,7 +224,7 @@ public class Main {
     }
 
     private static boolean centerRange(int r, int c) {
-        return 4 <= r && r <= R + 1 && 2 <= c && c <= C - 1;
+        return 3 <= r && r <= R + 2 && 2 <= c && c <= C - 1;
     }
 }
 
