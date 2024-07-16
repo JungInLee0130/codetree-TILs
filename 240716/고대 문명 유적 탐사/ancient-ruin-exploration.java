@@ -158,13 +158,14 @@ public class Main {
 
         // 0 ~ 4
         maxValue = 0;
-        maxValueCenterPoint = new int[]{1, 1, 0};
+        maxValueCenterPoint = new int[]{0, 0, 0};
         int[][] copyMap = new int[5][5];
+        //copymap에 map 카피
         copyOriginal(map, copyMap);
         maxValueMap = new int[5][5]; // maxValueMap Copy
 
-        for (int i = 1; i <= 3; i++) {
-            for (int j = 1; j <= 3; j++) {
+        for (int j = 1; j <= 3; j++) {
+            for (int i = 1; i <= 3; i++) {
                 rotate(copyMap,i,j);
             }
         }
@@ -177,19 +178,21 @@ public class Main {
     static int[] maxValueCenterPoint;
     static int[][] maxValueMap;
     private static void rotate(int[][] copyMap, int centerX, int centerY) {
-        // 1,1로 평행이동
+        // 가장 왼쪽 좌표
         int rx = centerX - 1;
         int ry = centerY - 1;
 
         int[][] oMap = new int[3][3];
-        copyMap(oMap, centerX, centerY);
+        copyMap(oMap, rx, ry);
         int[][] cMap = new int[3][3];
 
         // 90도
         rotateMap(cMap, oMap);
         copyOriginal(map, copyMap);
         copyMap(copyMap, cMap, rx, ry);
+
         int value = getValue(copyMap);
+        // value가 더크거나 각도가 더 작은경우
         if (maxValue < value || maxValue == value && maxValueCenterPoint[2] > 90) {
             maxValue = value;
             maxValueCenterPoint = new int[]{centerX, centerY, 90};
@@ -201,6 +204,7 @@ public class Main {
         rotateMap(cMap2, cMap);
         copyOriginal(map, copyMap);
         copyMap(copyMap, cMap2, rx, ry);
+
         value = getValue(copyMap);
         if (maxValue < value || maxValue == value && maxValueCenterPoint[2] > 180) {
             maxValue = value;
@@ -213,6 +217,7 @@ public class Main {
         rotateMap(cMap3, cMap2);
         copyOriginal(map, copyMap);
         copyMap(copyMap, cMap3, rx, ry);
+
         value = getValue(copyMap);
         if (maxValue < value || maxValue == value && maxValueCenterPoint[2] > 270) {
             maxValue = value;
@@ -237,11 +242,12 @@ public class Main {
     static int[] dy = {0, 0, -1, 1};
     private static int bfs(int[][] copyMap, int startX, int startY, boolean[][] isVisited) {
         Queue<int[]> que = new LinkedList<>();
+        Queue<int[]> lastQue = new LinkedList<>();
         int num = copyMap[startX][startY];
         isVisited[startX][startY] = true;
         que.add(new int[]{startX, startY, num});
+        lastQue.add(new int[]{startX, startY, num});
 
-        int count = 1;
         while (!que.isEmpty()) {
             int[] poll = que.poll();
 
@@ -254,14 +260,14 @@ public class Main {
                 if (isVisited[nx][ny]) continue;
                 if (nnum != poll[2]) continue;
 
-                count++;
                 isVisited[nx][ny] = true;
                 que.add(new int[]{nx, ny, nnum});
+                lastQue.add(new int[]{nx, ny, nnum});
             }
         }
 
-        if (count >= 3) {
-            return count;
+        if (lastQue.size() >= 3) {
+            return lastQue.size();
         }
 
         return 0;
@@ -287,13 +293,10 @@ public class Main {
         }
     }
 
-    private static void copyMap(int[][] oMap, int centerX, int centerY) {
-        int x = centerX - 1;
-        int y = centerY - 1;
-
+    private static void copyMap(int[][] oMap, int rx, int ry) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                oMap[i][j] = map[x + i][y + j];
+                oMap[i][j] = map[i + rx][j + ry];
             }
         }
     }
